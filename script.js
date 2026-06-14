@@ -1120,6 +1120,10 @@ function drawLinkageSystem(bobsArray, accentColor, isGhost, s_idx = 0) {
   for (let i = 0; i < numPendulums; i++) {
     const start = points[i];
     const end = points[i + 1];
+    const dx = end.x - start.x;
+    const dy = end.y - start.y;
+    const len = Math.hypot(dx, dy);
+
     ctx.beginPath();
     ctx.moveTo(start.x, start.y);
     ctx.lineTo(end.x, end.y);
@@ -1135,11 +1139,15 @@ function drawLinkageSystem(bobsArray, accentColor, isGhost, s_idx = 0) {
       ctx.stroke();
       ctx.globalAlpha = 1.0;
     } else {
+      ctx.strokeStyle = "rgba(0, 0, 0, 0.35)";
+      ctx.lineWidth = 9;
+      ctx.stroke();
+
       const grad = ctx.createLinearGradient(start.x, start.y, end.x, end.y);
       grad.addColorStop(0, "#ff007f");
       grad.addColorStop(0.45, "#7f00ff");
       grad.addColorStop(1, "#00e5ff");
-      ctx.strokeStyle = grad;
+      ctx.strokeStyle = len > 0.001 ? grad : "#00e5ff";
       ctx.lineWidth = 6;
       ctx.shadowColor = "rgba(0, 0, 0, 0.45)";
       ctx.shadowBlur = 6;
@@ -1264,12 +1272,13 @@ function draw() {
 
   if (isSimulationReleased) {
     if (elapsedRealTime > 0.1) elapsedRealTime = 0.1;
-    timeBuffer += elapsedRealTime;
 
-    const stepSize = dt * timeScale;
+    const simSpeed = Math.max(0.1, timeScale || 1);
+    timeBuffer += elapsedRealTime * simSpeed;
+
     while (timeBuffer >= dt) {
-      for (let s = 0; s < systems.length; s++) stepRK4(systems[s], stepSize);
-      simulationTime += stepSize;
+      for (let s = 0; s < systems.length; s++) stepRK4(systems[s], dt);
+      simulationTime += dt;
       timeBuffer -= dt;
     }
   } else {

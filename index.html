@@ -29,7 +29,11 @@
       <div id="pageControls">
         <p>Toggle advanced runtime modifiers for the simulation below.</p>
 
-        <div class="control-group" style="border-bottom: none;">
+        <button id="butterflyBtn" class="mode-btn">Butterfly Mode: OFF</button>
+        <button id="frictionBtn" class="mode-btn">Friction: OFF</button>
+        <button id="audioBtn" class="mode-btn">Audio: OFF</button>
+
+        <div class="control-group" style="border-bottom: none; margin-top: 8px;">
           <label>SIMULATION SPEED</label>
           <div class="ratio-display" id="speedTxt">1.0x</div>
           <div class="slider-row" style="margin-top: 5px;">
@@ -40,10 +44,6 @@
           </div>
           <p style="margin-bottom: 0; font-size: 10px; color: #7a7a7a;">Use 1× to 5× speed while the simulation is running. The time label accelerates with the same multiplier.</p>
         </div>
-
-        <button id="butterflyBtn" class="mode-btn">Butterfly Mode: OFF</button>
-        <button id="frictionBtn" class="mode-btn">Friction: OFF</button>
-        <button id="audioBtn" class="mode-btn">Audio: OFF</button>
 
         <div class="control-group" id="butterflyControls" style="display: none; border-bottom: none;">
           <label style="color: #ff9900;">PARALLEL UNIVERSES</label>
