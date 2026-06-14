@@ -31,6 +31,7 @@ let lastKnownTipVelocity = 0;
 
 let isSimulationReleased = false;
 let simulationTime = 0;
+let timeScale = 1.0;
 let setupAngles = [45.0, 45.0, 30.0, 0.0];
 let lastRealTime = performance.now();
 let timeBuffer = 0;
@@ -100,6 +101,8 @@ const angleControlContainer = document.getElementById("angleControlContainer");
 
 const gravitySlider = document.getElementById("gravitySlider");
 const gravityTxt = document.getElementById("gravityTxt");
+const timeScaleSlider = document.getElementById("timeScaleSlider");
+const speedTxt = document.getElementById("speedTxt");
 const presetBtns = document.querySelectorAll(".preset-btn");
 
 function buildSliderTicks() {
@@ -224,6 +227,20 @@ gravitySlider.addEventListener("input", (e) => {
   gravityTxt.innerText = `${g.toFixed(2)} m/s²`;
   clearHistories();
 });
+
+function updateSimulationSpeed() {
+  timeScale = parseFloat(timeScaleSlider?.value || 1);
+  if (speedTxt) {
+    speedTxt.textContent = `${timeScale.toFixed(1)}x`;
+  }
+}
+
+if (timeScaleSlider) {
+  timeScaleSlider.addEventListener("input", () => {
+    updateSimulationSpeed();
+    clearHistories();
+  });
+}
 
 if (separationSlider) {
   separationSlider.addEventListener("input", (e) => {
@@ -593,17 +610,17 @@ function getDerivatives(currState) {
   return [...omegas, ...accels];
 }
 
-function stepRK4(targetState) {
+function stepRK4(targetState, stepSize = dt) {
   let n2 = numPendulums * 2;
   let k1 = getDerivatives(targetState);
-  let s2 = targetState.map((v, i) => v + 0.5 * dt * k1[i]);
+  let s2 = targetState.map((v, i) => v + 0.5 * stepSize * k1[i]);
   let k2 = getDerivatives(s2);
-  let s3 = targetState.map((v, i) => v + 0.5 * dt * k2[i]);
+  let s3 = targetState.map((v, i) => v + 0.5 * stepSize * k2[i]);
   let k3 = getDerivatives(s3);
-  let s4 = targetState.map((v, i) => v + dt * k3[i]);
+  let s4 = targetState.map((v, i) => v + stepSize * k3[i]);
   let k4 = getDerivatives(s4);
   for (let i = 0; i < n2; i++) {
-    targetState[i] += (dt / 6) * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]);
+    targetState[i] += (stepSize / 6) * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]);
   }
 }
 
@@ -1097,31 +1114,39 @@ function drawLinkageSystem(bobsArray, accentColor, isGhost, s_idx = 0) {
   let baseCX = cx + offsetX;
   let points = [{ x: baseCX, y: cy }, ...bobsArray];
 
-  ctx.beginPath();
-  ctx.moveTo(points[0].x, points[0].y);
-  for (let i = 1; i <= numPendulums; i++) ctx.lineTo(points[i].x, points[i].y);
-
-  if (isGhost) {
-    ctx.strokeStyle = accentColor;
-    ctx.globalAlpha = 0.65;
-    ctx.lineWidth = 3.5;
-  } else {
-    let grad = ctx.createLinearGradient(
-      baseCX,
-      cy,
-      bobsArray[numPendulums - 1].x,
-      bobsArray[numPendulums - 1].y
-    );
-    grad.addColorStop(0, "#ff007f");
-    grad.addColorStop(0.5, "#7f00ff");
-    grad.addColorStop(1, "#00e5ff");
-    ctx.strokeStyle = grad;
-    ctx.lineWidth = 6;
-  }
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
-  ctx.stroke();
-  ctx.globalAlpha = 1.0;
+
+  for (let i = 0; i < numPendulums; i++) {
+    const start = points[i];
+    const end = points[i + 1];
+    ctx.beginPath();
+    ctx.moveTo(start.x, start.y);
+    ctx.lineTo(end.x, end.y);
+
+    if (isGhost) {
+      ctx.strokeStyle = "rgba(0, 0, 0, 0.35)";
+      ctx.lineWidth = 8.5;
+      ctx.stroke();
+
+      ctx.strokeStyle = accentColor;
+      ctx.globalAlpha = 0.85;
+      ctx.lineWidth = 4.2;
+      ctx.stroke();
+      ctx.globalAlpha = 1.0;
+    } else {
+      const grad = ctx.createLinearGradient(start.x, start.y, end.x, end.y);
+      grad.addColorStop(0, "#ff007f");
+      grad.addColorStop(0.45, "#7f00ff");
+      grad.addColorStop(1, "#00e5ff");
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 6;
+      ctx.shadowColor = "rgba(0, 0, 0, 0.45)";
+      ctx.shadowBlur = 6;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+  }
 
   for (let i = 1; i <= numPendulums; i++) {
     let currentMassRatio = masses[i - 1] / 2.0;
@@ -1241,9 +1266,10 @@ function draw() {
     if (elapsedRealTime > 0.1) elapsedRealTime = 0.1;
     timeBuffer += elapsedRealTime;
 
+    const stepSize = dt * timeScale;
     while (timeBuffer >= dt) {
-      for (let s = 0; s < systems.length; s++) stepRK4(systems[s]);
-      simulationTime += dt;
+      for (let s = 0; s < systems.length; s++) stepRK4(systems[s], stepSize);
+      simulationTime += stepSize;
       timeBuffer -= dt;
     }
   } else {
@@ -1339,6 +1365,7 @@ function draw() {
 
 resizeViewport();
 buildSliderTicks();
+updateSimulationSpeed();
 initSimulation();
 renderAngleControlSliders();
 draw();
