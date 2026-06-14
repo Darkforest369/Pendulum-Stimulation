@@ -46,7 +46,7 @@ canvas:active {
   box-sizing: border-box;
 }
 
-.orientation-notice {
+.device-notice {
   position: fixed;
   inset: 0;
   z-index: 999;
@@ -54,11 +54,11 @@ canvas:active {
   align-items: center;
   justify-content: center;
   padding: 18px;
-  background: rgba(5, 7, 10, 0.88);
+  background: rgba(5, 7, 10, 0.92);
   backdrop-filter: blur(4px);
 }
 
-.orientation-card {
+.device-card {
   width: min(92vw, 380px);
   background: rgba(20, 20, 20, 0.98);
   border: 1px solid #2d2d2d;
@@ -68,7 +68,7 @@ canvas:active {
   text-align: center;
 }
 
-.orientation-card strong {
+.device-card strong {
   display: block;
   color: #00e5ff;
   font-size: 13px;
@@ -76,14 +76,14 @@ canvas:active {
   margin-bottom: 6px;
 }
 
-.orientation-card p {
+.device-card p {
   font-size: 11px;
   line-height: 1.45;
   color: #ddd;
   margin-bottom: 8px;
 }
 
-.orientation-card span {
+.device-card span {
   display: inline-block;
   font-size: 10px;
   color: #8fd8ff;
@@ -559,81 +559,3 @@ input[type="range"] {
   text-align: center;
 }
 
-@media (max-width: 480px) {
-  #ui-layer {
-    top: 6px;
-    left: 6px;
-    width: calc(100vw - 12px);
-    max-width: none;
-    max-height: calc(var(--app-height, 100vh) - 12px);
-  }
-
-  .panel-body {
-    padding: 10px;
-  }
-
-  .panel-header {
-    padding: 10px 12px;
-  }
-
-  .panel-header h2 {
-    font-size: 12px;
-  }
-
-  .tab-header {
-    flex-wrap: wrap;
-  }
-
-  .tab-btn {
-    flex: 1 1 48%;
-    font-size: 9px;
-    padding: 8px 4px;
-  }
-
-  .slider-row {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 6px;
-  }
-
-  .slider-row span {
-    width: auto;
-    font-size: 10px;
-  }
-
-  .ratio-display {
-    font-size: 12px;
-  }
-
-  .mode-btn {
-    font-size: 11px;
-    padding: 10px 8px;
-  }
-
-  #telemetry-control {
-    bottom: 8px;
-    right: 8px;
-    min-width: 145px;
-  }
-
-  #telemetryBtn {
-    font-size: 10px;
-    padding: 6px 10px;
-  }
-
-  #butterfly-panel {
-    bottom: 8px;
-    right: 8px;
-    width: min(94vw, 240px);
-  }
-
-  .guide-key {
-    min-width: 56px;
-  }
-}
-
-@media (orientation: portrait) and (max-width: 480px) {
-  .orientation-notice {
-    display: flex;
-  }
-}
