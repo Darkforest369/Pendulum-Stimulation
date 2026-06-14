@@ -1,14 +1,20 @@
+html,
 body {
   margin: 0;
   padding: 0;
-  background-color: #111;
+  width: 100%;
+  min-height: 100%;
+  height: var(--app-height, 100vh);
   overflow: hidden;
+}
+
+body {
+  background-color: #111;
   color: white;
   font-family: sans-serif;
   user-select: none;
-  width: 100vw;
-  height: 100vh;
 }
+
 canvas {
   display: block;
   background-color: #1a1a1a;
@@ -18,6 +24,7 @@ canvas {
   left: 0;
   width: 100%;
   height: 100%;
+  touch-action: none;
 }
 canvas:active {
   cursor: grabbing;
@@ -25,17 +32,64 @@ canvas:active {
 
 #ui-layer {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 16px;
+  left: 16px;
   z-index: 10;
   background: rgba(20, 20, 20, 0.92);
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
   border: 1px solid #333;
-  width: 320px;
-  max-height: calc(100vh - 40px);
+  width: min(360px, calc(100vw - 18px));
+  max-width: 360px;
+  max-height: calc(var(--app-height, 100vh) - 18px);
   overflow-y: auto;
   transition: max-height 0.3s ease-in-out;
+  box-sizing: border-box;
+}
+
+.orientation-notice {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(5, 7, 10, 0.88);
+  backdrop-filter: blur(4px);
+}
+
+.orientation-card {
+  width: min(92vw, 380px);
+  background: rgba(20, 20, 20, 0.98);
+  border: 1px solid #2d2d2d;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.45);
+  padding: 14px;
+  text-align: center;
+}
+
+.orientation-card strong {
+  display: block;
+  color: #00e5ff;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  margin-bottom: 6px;
+}
+
+.orientation-card p {
+  font-size: 11px;
+  line-height: 1.45;
+  color: #ddd;
+  margin-bottom: 8px;
+}
+
+.orientation-card span {
+  display: inline-block;
+  font-size: 10px;
+  color: #8fd8ff;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
 }
 #ui-layer.collapsed {
   max-height: 44px;
@@ -162,6 +216,8 @@ input[type="range"] {
   cursor: pointer;
   position: relative;
   z-index: 2;
+  min-height: 28px;
+  touch-action: manipulation;
 }
 
 .angle-input-wrapper {
@@ -312,10 +368,10 @@ input[type="range"] {
 
 #telemetry-control {
   position: absolute;
-  bottom: 25px;
-  right: 25px;
+  bottom: 14px;
+  right: 14px;
   z-index: 10;
-  min-width: 190px;
+  min-width: 180px;
 }
 #telemetryBtn {
   display: block;
@@ -393,9 +449,11 @@ input[type="range"] {
 
 #butterfly-panel {
   position: absolute;
-  bottom: 25px;
-  right: 25px;
-  width: 260px;
+  bottom: 14px;
+  right: 14px;
+  width: min(92vw, 260px);
+  max-height: calc(100vh - 30px);
+  overflow-y: auto;
   background: rgba(20, 20, 20, 0.92);
   border: 1px solid #ff9900;
   border-radius: 6px;
@@ -460,4 +518,100 @@ input[type="range"] {
   font-size: 10px;
   color: #00e5ff;
   text-align: center;
+}
+
+@media (max-width: 980px) {
+  #ui-layer {
+    top: 8px;
+    left: 8px;
+    width: min(96vw, 380px);
+    max-width: none;
+  }
+
+  #telemetry-control {
+    bottom: 10px;
+    right: 10px;
+    min-width: 160px;
+  }
+
+  #butterfly-panel {
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .mode-btn {
+    font-size: 11px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  #ui-layer {
+    width: calc(100vw - 10px);
+    max-width: none;
+    top: 6px;
+    left: 5px;
+    max-height: calc(var(--app-height, 100vh) - 10px);
+  }
+
+  .panel-body {
+    padding: 10px;
+  }
+
+  .panel-header {
+    padding: 10px 12px;
+  }
+
+  .panel-header h2 {
+    font-size: 12px;
+  }
+
+  .tab-header {
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    flex: 1 1 48%;
+    font-size: 9px;
+    padding: 8px 4px;
+  }
+
+  .slider-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .slider-row span {
+    width: auto;
+    font-size: 10px;
+  }
+
+  .ratio-display {
+    font-size: 12px;
+  }
+
+  .mode-btn {
+    font-size: 11px;
+    padding: 10px 8px;
+  }
+
+  #telemetry-control {
+    min-width: 145px;
+  }
+
+  #telemetryBtn {
+    font-size: 10px;
+    padding: 6px 10px;
+  }
+
+  .guide-key {
+    min-width: 56px;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 980px) {
+  .orientation-notice {
+    display: flex;
+  }
 }

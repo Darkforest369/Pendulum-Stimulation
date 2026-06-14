@@ -119,8 +119,13 @@ function buildSliderTicks() {
 }
 
 function resizeViewport() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  const viewportHeight = window.visualViewport?.height || window.innerHeight;
+  const viewportWidth = window.visualViewport?.width || window.innerWidth;
+
+  document.documentElement.style.setProperty("--app-height", `${viewportHeight}px`);
+
+  canvas.width = viewportWidth;
+  canvas.height = viewportHeight;
   cx = canvas.width / 2;
   cy = canvas.height / 2 - 50;
   adjustTelemetryTogglePosition();
@@ -156,10 +161,34 @@ canvas.addEventListener("wheel", (e) => {
   zoomLevel = Math.min(2, Math.max(0.5, zoomLevel * factor));
 }, { passive: false });
 
+const orientationNotice = document.getElementById("orientationNotice");
+
+function updateOrientationNotice() {
+  if (!orientationNotice) return;
+  const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+  const isNarrow = window.innerWidth < 980;
+  orientationNotice.style.display = isPortrait && isNarrow ? "flex" : "none";
+}
+
 window.addEventListener("resize", () => {
   resizeViewport();
+  updateOrientationNotice();
   clearHistories();
 });
+
+window.addEventListener("orientationchange", () => {
+  setTimeout(() => {
+    resizeViewport();
+    updateOrientationNotice();
+  }, 120);
+});
+
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", () => {
+    resizeViewport();
+    updateOrientationNotice();
+  });
+}
 
 window.addEventListener("keydown", (e) => {
   if (
@@ -1373,6 +1402,7 @@ function draw() {
 }
 
 resizeViewport();
+updateOrientationNotice();
 buildSliderTicks();
 updateSimulationSpeed();
 initSimulation();
