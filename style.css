@@ -32,16 +32,15 @@ canvas:active {
 
 #ui-layer {
   position: absolute;
-  top: 16px;
-  left: 16px;
+  top: 20px;
+  left: 20px;
   z-index: 10;
   background: rgba(20, 20, 20, 0.92);
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
   border: 1px solid #333;
-  width: min(360px, calc(100vw - 18px));
-  max-width: 360px;
-  max-height: calc(var(--app-height, 100vh) - 18px);
+  width: 320px;
+  max-height: calc(100vh - 40px);
   overflow-y: auto;
   transition: max-height 0.3s ease-in-out;
   box-sizing: border-box;
@@ -91,10 +90,12 @@ canvas:active {
   text-transform: uppercase;
   letter-spacing: 0.2em;
 }
+
 #ui-layer.collapsed {
   max-height: 44px;
   overflow: hidden;
 }
+
 .panel-header {
   display: flex;
   justify-content: space-between;
@@ -107,20 +108,24 @@ canvas:active {
   top: 0;
   z-index: 11;
 }
+
 .panel-header:hover {
   background: #2b2b2b;
 }
+
 .panel-header h2 {
   margin: 0;
   font-size: 14px;
   color: #fff;
   letter-spacing: 0.5px;
 }
+
 .toggle-icon {
   color: #00e5ff;
   font-size: 12px;
   transition: transform 0.3s ease;
 }
+
 #ui-layer.collapsed .toggle-icon {
   transform: rotate(180deg);
 }
@@ -130,6 +135,7 @@ canvas:active {
   border-bottom: 1px solid #333;
   background: #181818;
 }
+
 .tab-btn {
   flex: 1;
   text-align: center;
@@ -143,10 +149,12 @@ canvas:active {
   align-items: center;
   justify-content: center;
 }
+
 .tab-btn:hover {
   color: #fff;
   background: #222;
 }
+
 .tab-btn.active {
   color: #00e5ff;
   border-bottom: 2px solid #00e5ff;
@@ -156,6 +164,7 @@ canvas:active {
 .panel-body {
   padding: 15px;
 }
+
 p {
   margin-top: 0;
   font-size: 12px;
@@ -163,14 +172,17 @@ p {
   margin-bottom: 15px;
   line-height: 1.4;
 }
+
 .control-group {
   margin-bottom: 15px;
   padding-bottom: 10px;
   border-bottom: 1px solid #333;
 }
+
 .control-group:last-child {
   border-bottom: none;
 }
+
 .control-group label {
   display: block;
   font-size: 11px;
@@ -189,12 +201,14 @@ p {
   display: inline-block;
   margin-bottom: 8px;
 }
+
 .slider-row {
   display: flex;
   gap: 10px;
   align-items: center;
   margin-bottom: 8px;
 }
+
 .slider-row span {
   font-size: 11px;
   color: #888;
@@ -209,6 +223,7 @@ p {
   align-items: center;
   height: 24px;
 }
+
 input[type="range"] {
   width: 100%;
   margin: 0;
@@ -226,6 +241,7 @@ input[type="range"] {
   gap: 10px;
   width: 100%;
 }
+
 .angle-num-input {
   width: 65px;
   background: #222;
@@ -237,6 +253,7 @@ input[type="range"] {
   font-size: 12px;
   text-align: right;
 }
+
 .angle-num-input:focus {
   border-color: #00e5ff;
   outline: none;
@@ -253,6 +270,7 @@ input[type="range"] {
   pointer-events: none;
   z-index: 3;
 }
+
 .tick-dot {
   width: 4px;
   height: 4px;
@@ -275,6 +293,7 @@ input[type="range"] {
   transition: all 0.2s;
   margin-bottom: 8px;
 }
+
 .mode-btn:hover {
   opacity: 0.9;
 }
@@ -286,6 +305,7 @@ input[type="range"] {
   letter-spacing: 0.5px;
   margin-bottom: 15px;
 }
+
 #actionBtn.running {
   background-color: #ff3366;
   color: #fff;
@@ -296,6 +316,7 @@ input[type="range"] {
   color: #ff9900;
   border: 1px solid #ff9900;
 }
+
 #butterflyBtn.active {
   background-color: #ff9900;
   color: #000;
@@ -307,6 +328,7 @@ input[type="range"] {
   color: #ff3366;
   border: 1px solid #ff3366;
 }
+
 #frictionBtn.active {
   background-color: #ff3366;
   color: #000;
@@ -332,6 +354,7 @@ input[type="range"] {
   border: 1px solid #ff9900;
   margin-top: 10px;
 }
+
 #toggleTrailsBtn.active {
   background-color: #ff9900;
   color: #000;
@@ -344,12 +367,14 @@ input[type="range"] {
   gap: 8px;
   margin-top: 10px;
 }
+
 .preset-grid .mode-btn {
   margin-bottom: 0;
   background-color: #2a2a2a;
   color: #ddd;
   border: 1px solid #444;
 }
+
 .preset-grid .mode-btn:hover {
   background-color: #00e5ff;
   color: #000;
@@ -368,11 +393,12 @@ input[type="range"] {
 
 #telemetry-control {
   position: absolute;
-  bottom: 14px;
-  right: 14px;
+  bottom: 25px;
+  right: 25px;
   z-index: 10;
-  min-width: 180px;
+  min-width: 190px;
 }
+
 #telemetryBtn {
   display: block;
   width: 100%;
@@ -388,10 +414,12 @@ input[type="range"] {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   transition: background 0.2s;
 }
+
 #telemetryBtn:hover {
   background: #2b2b2b;
   border-color: #555;
 }
+
 #telemetry-dropdown {
   background: rgba(20, 20, 20, 0.95);
   border: 1px solid #333;
@@ -400,6 +428,7 @@ input[type="range"] {
   margin-bottom: 6px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
 }
+
 .telem-label {
   font-size: 9px;
   color: #555;
@@ -409,6 +438,7 @@ input[type="range"] {
   border-bottom: 1px solid #2a2a2a;
   margin-bottom: 4px;
 }
+
 .telem-row {
   display: flex;
   align-items: center;
@@ -420,13 +450,16 @@ input[type="range"] {
   transition: background 0.15s;
   user-select: none;
 }
+
 .telem-row:hover {
   background: rgba(255, 255, 255, 0.05);
   color: #fff;
 }
+
 .telem-row-butterfly span {
   color: #ff9900;
 }
+
 .telem-pip {
   width: 8px;
   height: 8px;
@@ -436,11 +469,13 @@ input[type="range"] {
   flex-shrink: 0;
   transition: background 0.2s, border-color 0.2s;
 }
+
 .telem-pip.on {
   background: #00e5ff;
   border-color: #00e5ff;
   box-shadow: 0 0 4px rgba(0, 229, 255, 0.5);
 }
+
 .telem-row-butterfly .telem-pip.on {
   background: #ff9900;
   border-color: #ff9900;
@@ -449,9 +484,9 @@ input[type="range"] {
 
 #butterfly-panel {
   position: absolute;
-  bottom: 14px;
-  right: 14px;
-  width: min(92vw, 260px);
+  bottom: 25px;
+  right: 25px;
+  width: 260px;
   max-height: calc(100vh - 30px);
   overflow-y: auto;
   background: rgba(20, 20, 20, 0.92);
@@ -462,6 +497,7 @@ input[type="range"] {
   display: none;
   z-index: 9;
 }
+
 #butterfly-panel h3 {
   margin: 0 0 8px 0;
   font-size: 12px;
@@ -469,12 +505,14 @@ input[type="range"] {
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
+
 #butterfly-panel p {
   font-size: 11px;
   color: #ddd;
   line-height: 1.4;
   margin: 0 0 8px 0;
 }
+
 .color-legend {
   display: flex;
   align-items: center;
@@ -483,6 +521,7 @@ input[type="range"] {
   color: #aaa;
   margin-top: 4px;
 }
+
 .color-box {
   width: 10px;
   height: 10px;
@@ -520,38 +559,13 @@ input[type="range"] {
   text-align: center;
 }
 
-@media (max-width: 980px) {
+@media (max-width: 480px) {
   #ui-layer {
-    top: 8px;
-    left: 8px;
-    width: min(96vw, 380px);
-    max-width: none;
-  }
-
-  #telemetry-control {
-    bottom: 10px;
-    right: 10px;
-    min-width: 160px;
-  }
-
-  #butterfly-panel {
-    bottom: 10px;
-    right: 10px;
-  }
-
-  .mode-btn {
-    font-size: 11px;
-    padding: 10px;
-  }
-}
-
-@media (max-width: 640px) {
-  #ui-layer {
-    width: calc(100vw - 10px);
-    max-width: none;
     top: 6px;
-    left: 5px;
-    max-height: calc(var(--app-height, 100vh) - 10px);
+    left: 6px;
+    width: calc(100vw - 12px);
+    max-width: none;
+    max-height: calc(var(--app-height, 100vh) - 12px);
   }
 
   .panel-body {
@@ -597,6 +611,8 @@ input[type="range"] {
   }
 
   #telemetry-control {
+    bottom: 8px;
+    right: 8px;
     min-width: 145px;
   }
 
@@ -605,12 +621,18 @@ input[type="range"] {
     padding: 6px 10px;
   }
 
+  #butterfly-panel {
+    bottom: 8px;
+    right: 8px;
+    width: min(94vw, 240px);
+  }
+
   .guide-key {
     min-width: 56px;
   }
 }
 
-@media (orientation: portrait) and (max-width: 980px) {
+@media (orientation: portrait) and (max-width: 480px) {
   .orientation-notice {
     display: flex;
   }

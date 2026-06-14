@@ -851,9 +851,10 @@ function drawGrid() {
 
 function drawScaleBar() {
   ctx.save();
-  const barX = 360,
-    barY = 32,
-    barWidth = PIXELS_PER_METER * zoomLevel;
+  const isPhone = window.matchMedia("(max-width: 480px)").matches;
+  const barX = isPhone ? 12 : 360;
+  const barY = isPhone ? 18 : 32;
+  const barWidth = isPhone ? Math.min(110, PIXELS_PER_METER * zoomLevel * 0.75) : PIXELS_PER_METER * zoomLevel;
   ctx.strokeStyle = "#888";
   ctx.lineWidth = 1.5;
   ctx.beginPath();
@@ -865,31 +866,37 @@ function drawScaleBar() {
   ctx.lineTo(barX + barWidth, barY + 4);
   ctx.stroke();
   ctx.fillStyle = "#aaa";
-  ctx.font = "11px monospace";
+  ctx.font = isPhone ? "10px monospace" : "11px monospace";
   ctx.textAlign = "left";
-  ctx.fillText("1.0 meter", barX + barWidth / 2 - 30, barY - 8);
+  ctx.fillText(isPhone ? "1.0 m" : "1.0 meter", barX + 4, barY - 8);
   ctx.restore();
 }
 
 function drawTimeCounter() {
   ctx.save();
+  const isPhone = window.matchMedia("(max-width: 480px)").matches;
+  const x = isPhone ? 12 : 360;
+  const y = isPhone ? 44 : 56;
   ctx.fillStyle = "#aaa";
   ctx.textAlign = "left";
-  ctx.font = "12px monospace";
-  ctx.fillText("Time: ", 360, 56);
-  ctx.font = "italic 14px 'Times New Roman', Georgia, serif";
-  ctx.fillText("t", 402, 56);
-  ctx.font = "12px monospace";
-  ctx.fillText(` = ${simulationTime.toFixed(2)} s`, 412, 56);
+  ctx.font = isPhone ? "10px monospace" : "12px monospace";
+  ctx.fillText("Time: ", x, y);
+  ctx.font = isPhone ? "italic 11px 'Times New Roman', Georgia, serif" : "italic 14px 'Times New Roman', Georgia, serif";
+  ctx.fillText("t", x + 38, y);
+  ctx.font = isPhone ? "10px monospace" : "12px monospace";
+  ctx.fillText(` = ${simulationTime.toFixed(2)} s`, x + 48, y);
   ctx.restore();
 }
 
 function drawFpsCounter() {
   ctx.save();
+  const isPhone = window.matchMedia("(max-width: 480px)").matches;
+  const x = isPhone ? 12 : 360;
+  const y = isPhone ? 62 : 78;
   ctx.textAlign = "left";
-  ctx.font = "11px monospace";
+  ctx.font = isPhone ? "10px monospace" : "11px monospace";
   ctx.fillStyle = displayFps >= 50 ? "#39ff14" : displayFps >= 30 ? "#ffaa00" : "#ff3366";
-  ctx.fillText(`FPS: ${displayFps}`, 360, 78);
+  ctx.fillText(`FPS: ${displayFps}`, x, y);
   ctx.restore();
 }
 
@@ -981,10 +988,11 @@ function drawPhaseSpaceDiagram() {
   maxDevX *= 1.1;
   maxDevY *= 1.1;
 
-  const gw = 320,
-    gh = 280;
-  const gx = canvas.width - gw - 25;
-  const gy = 25 + (showEnergyGraph ? 120 : 0);
+  const isPhone = window.matchMedia("(max-width: 480px)").matches;
+  const gw = isPhone ? 250 : 320;
+  const gh = isPhone ? 170 : 280;
+  const gx = canvas.width - gw - (isPhone ? 8 : 25);
+  const gy = isPhone ? (showEnergyGraph ? 110 : 12) : 25 + (showEnergyGraph ? 120 : 0);
   const cx_v = gx + gw / 2,
     cy_v = gy + gh / 2;
 
@@ -1021,7 +1029,7 @@ function drawPhaseSpaceDiagram() {
   ctx.stroke();
 
   ctx.fillStyle = "#fff";
-  ctx.font = "11px monospace";
+  ctx.font = isPhone ? "10px monospace" : "11px monospace";
   ctx.textAlign = "right";
   ctx.fillText(labelX, gx + gw - 10, cy_v - 8);
 
@@ -1063,10 +1071,11 @@ function drawEnergyGraph() {
     if (energyHistory.length > maxEnergyPoints) energyHistory.shift();
   }
 
-  const gw = 320,
-    gh = 110,
-    gx = canvas.width - gw - 25,
-    gy = 25;
+  const isPhone = window.matchMedia("(max-width: 480px)").matches;
+  const gw = isPhone ? 250 : 320;
+  const gh = isPhone ? 88 : 110;
+  const gx = canvas.width - gw - (isPhone ? 8 : 25);
+  const gy = isPhone ? 10 : 25;
 
   ctx.fillStyle = "rgba(20, 20, 20, 0.85)";
   ctx.fillRect(gx, gy, gw, gh);
@@ -1091,7 +1100,7 @@ function drawEnergyGraph() {
 
   if (energyHistory.length < 2) {
     ctx.fillStyle = "#aaa";
-    ctx.font = "11px monospace";
+    ctx.font = isPhone ? "10px monospace" : "11px monospace";
     ctx.textAlign = "center";
     ctx.fillText("Release pendulum to record energy", gx + gw / 2, gy + gh / 2 + 8);
     ctx.restore();
@@ -1216,9 +1225,11 @@ function hexToRgba(hex, alpha) {
 
 function drawLyapunovGraph() {
   ctx.save();
-  const gw = 320, gh = 130;
-  const gx = canvas.width - gw - 25;
-  const gy = 25;
+  const isPhone = window.matchMedia("(max-width: 480px)").matches;
+  const gw = isPhone ? 250 : 320;
+  const gh = isPhone ? 96 : 130;
+  const gx = canvas.width - gw - (isPhone ? 8 : 25);
+  const gy = isPhone ? 10 : 25;
 
   ctx.fillStyle = "rgba(20, 20, 20, 0.85)";
   ctx.fillRect(gx, gy, gw, gh);
@@ -1228,7 +1239,7 @@ function drawLyapunovGraph() {
 
   ctx.textAlign = "left";
   ctx.fillStyle = "#ddd";
-  ctx.font = "10px monospace";
+  ctx.font = isPhone ? "9px monospace" : "10px monospace";
   ctx.fillText("LYAPUNOV DIVERGENCE (log scale)", gx + 8, gy + 15);
 
   if (lyapunovHistory.length < 2) {
@@ -1270,14 +1281,14 @@ function drawLyapunovGraph() {
   const last = lyapunovHistory[lyapunovHistory.length - 1];
   const elapsed = last.t - first.t;
   ctx.textAlign = "right";
-  ctx.font = "11px monospace";
+  ctx.font = isPhone ? "10px monospace" : "11px monospace";
   if (elapsed > 0.5) {
     const lambda = (last.ld - first.ld) / elapsed;
     ctx.fillStyle = lambda > 0 ? "#ff9900" : "#00ff7f";
     ctx.fillText(`λ ≈ ${lambda > 0 ? "+" : ""}${lambda.toFixed(2)} /s`, gx + gw - 8, gy + 15);
   }
   ctx.fillStyle = "#ddd";
-  ctx.font = "10px monospace";
+  ctx.font = isPhone ? "9px monospace" : "10px monospace";
   ctx.fillText(`Δ = ${last.d.toFixed(1)} px`, gx + gw - 8, gy + gh - 6);
   ctx.restore();
 }
