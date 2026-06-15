@@ -1,4 +1,4 @@
-# Pendulum-Stimulation
-Pendulum Stimulation
+# Pendulum-Simulation
+Pendulum Simulation
 
-This website is to let user to run stimulation about pendulum.
+This website is to let user to run simulation about pendulum.
